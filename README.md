@@ -13,5 +13,5 @@ npm i
 use the embedded start script
 
 ```
-npm start
+npm start --db-port 3500 --server-port 3000
 ```
