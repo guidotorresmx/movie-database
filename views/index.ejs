@@ -1,12 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <h1>Hi, mom</h1>
-  </body>
-</html>
+<%- include('partials/header'); -%>
+
+<h1>This is homepage</h1>
+<% if (data.length > 0) { %>
+<ul>
+  <% data.forEach(colour => { %>
+  <li style="display: flex; gap: 10px; align-items: center; margin: 5px 0">
+    <span
+      style="
+        background-color: <%= colour.name %>;
+        width: 10px;
+        height: 10px;
+        border-radius: 10px;
+      "
+    ></span>
+    <a href="/colour/<%= colour.id %> "> <%= colour.name %> </a>
+    <span class="delete" id="<%= colour.id %>" style="cursor: pointer">
+      &#10005;
+    </span>
+  </li>
+  <% }) %>
+</ul>
+<% } else { %>
+<p>No colours yet</p>
+<% } %> <%- include('partials/footer'); -%>
+
+<script>
+  window.addEventListener("DOMContentLoaded", () => {
+    const deleteBtnClickHandler = (event) => {
+      console.log("clicked", event.currentTarget.id);
+      fetch(`/delete-colour`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: event.currentTarget.id,
+        }),
+      })
+        .then(() => {
+          window.location.reload();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+
+    const deleteBtns = document.getElementsByClassName("delete");
+
+    Array.from(deleteBtns).forEach((btn) => {
+      btn.addEventListener("click", deleteBtnClickHandler);
+    });
+  });
+</script>

@@ -1,0 +1,20 @@
+<%- include('partials/header'); -%>
+<h1>Colour Page</h1>
+<p>Colour ID: <%= data.id %></p>
+<form action="/update-colour" method="post">
+  <label for="clourName">Colour name</label><br />
+  <input
+    type="text"
+    id="colourName"
+    name="colourName"
+    value="<%= data.name %>"
+  />
+  <input type="hidden" name="id" value="<%= data.id %>" />
+  <br /><br />
+  <input type="submit" />
+  <br /><br />
+</form>
+<div
+  style="background-color: <%= data.name %>; width: 10px; height: 10px"
+></div>
+<%- include('partials/footer'); -%>
