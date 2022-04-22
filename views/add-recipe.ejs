@@ -1,0 +1,124 @@
+<div class="recipe-container">
+  <br />
+  <br />
+
+  <h2>Add new recipe!</h2>
+  <div class="row g-5">
+    <div class="col-md-5 col-lg-4 order-md-last"></div>
+    <div class="col-md-7 col-lg-8">
+      <form action="/profile" enctype="multipart/form-data" method="post">
+        <div class="row g-3">
+          <div class="col-12">
+            <label for="name" class="form-label">Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="name"
+              placeholder=""
+              value=""
+              maxlength="50"
+              name="name"
+              required
+            />
+            <div class="invalid-feedback">Name is needed.</div>
+          </div>
+
+          <div class="col-12">
+            <label for="description" class="form-label">Description</label>
+            <input
+              type="text"
+              class="form-control"
+              id="description"
+              placeholder=""
+              value=""
+              name="description"
+              required
+            />
+            <div class="invalid-feedback">Description is needed</div>
+          </div>
+
+          <div class="col-sm-6">
+            <div id="steps-array">
+              <div class="steps-element">
+                <label for="Steps[]" class="form-label">Step</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="Steps[]"
+                  placeholder=""
+                  value=""
+                  name="Steps[]"
+                  required
+                />
+                <div class="invalid-feedback">Step needed</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <label>Add step!</label>
+            <button
+              id="add-step-row"
+              class="add-step-row w-100 btn btn-primary btn-lg"
+              type="button"
+            >
+              Add step!
+            </button>
+          </div>
+
+          <div class="col-sm-6">
+            <div id="ingredients-array">
+              <div class="ingredients-element">
+                <label for="Ingredients[]" class="form-label"
+                  >Ingredients</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="Ingredients[]"
+                  placeholder=""
+                  value=""
+                  name="Ingredients[]"
+                  required
+                />
+                <div class="invalid-feedback">Ingredient needed</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <label>Add ingredient!</label>
+            <button
+              id="add-ingredient-row"
+              class="add-ingredient-row w-100 btn btn-primary btn-lg"
+              type="button"
+            >
+              Add ingredient!
+            </button>
+          </div>
+
+          <div class="col-12">
+            <label for="photo" class="form-label"
+              >Photo <span class="text-muted">(Optional)</span></label
+            >
+            <input
+              type="file"
+              class="form-control"
+              id="photo"
+              name="avatar"
+              placeholder=""
+            />
+            <div class="invalid-feedback">
+              Please enter a valid email address for shipping updates.
+            </div>
+          </div>
+        </div>
+
+        <hr class="my-4" />
+
+        <button class="w-100 btn btn-primary btn-lg" type="submit">
+          Upload my recipe!
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+<script src="./../js/add-files.js"></script>
