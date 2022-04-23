@@ -168,34 +168,41 @@ router.post(
   upload.single("photo"),
   async function (req, res, next) {
     console.log("POST /add-recipe-submit");
+    try {
+      // set recipe name
+      const encoded_name = encode(req.body.name);
+      const recipeString =
+        `INSERT INTO recipes` +
+        `(name, encoded_name, descr, filename) VALUES ` +
+        `('${req.body.name}', '${encoded_name}', '${req.body.description}', '${req.file.originalname}')`;
+      let recipe = await db.query(recipeString);
 
-    // set recipe name
-    const encoded_name = encode(req.body.name);
-    const recipeString =
-      `INSERT INTO recipes` +
-      `(name, encoded_name, descr, filename) VALUES ` +
-      `('${req.body.name}', '${encoded_name}', '${req.body.description}', '${req.file.originalname}')`;
-    let recipe = await db.query(recipeString);
+      // set ingredients
+      await req.body.Ingredients.forEach((ingredient) => {
+        const encoded_ingr = encode(ingredient);
+        const ingredientsString =
+          `INSERT INTO ingredients` +
+          `(recipe, name, encoded_name) VALUES ` +
+          `('${encoded_name}', '${ingredient}', '${encoded_ingr}')`;
+        let ingredients = db.query(ingredientsString);
+      });
 
-    // set ingredients
-    await req.body.Ingredients.forEach((ingredient) => {
-      const encoded_ingr = encode(ingredient);
-      const ingredientsString =
-        `INSERT INTO ingredients` +
-        `(recipe, name, encoded_name) VALUES ` +
-        `('${encoded_name}', '${ingredient}', '${encoded_ingr}')`;
-      let ingredients = db.query(ingredientsString);
-    });
-
-    // set steps
-    await req.body.Steps.forEach((step) => {
-      const encoded_ingr = encode(step);
-      const stepsString =
-        `INSERT INTO steps` +
-        `(recipe, name, encoded_name) VALUES ` +
-        `('${encoded_name}', '${step}', '${encoded_ingr}')`;
-      let steps = db.query(stepsString);
-    });
+      // set steps
+      await req.body.Steps.forEach((step) => {
+        const encoded_ingr = encode(step);
+        const stepsString =
+          `INSERT INTO steps` +
+          `(recipe, name, encoded_name) VALUES ` +
+          `('${encoded_name}', '${step}', '${encoded_ingr}')`;
+        let steps = db.query(stepsString);
+      });
+    } catch (err) {
+      console.error(err);
+      console.error("Error while querying database");
+      console.error(`Please add an image`);
+      res.writeHead(204);
+      res.end();
+    }
     res.writeHead(302, {
       Location: "/",
     });
