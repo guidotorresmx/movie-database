@@ -1,53 +1,53 @@
-<h1>This is homepage</h1>
-<% if (data.length > 0) { %>
-<ul>
-  <% data.forEach(colour => { %>
-  <li style="display: flex; gap: 10px; align-items: center; margin: 5px 0">
-    <span
-      style="
-        background-color: <%= colour.name %>;
-        width: 10px;
-        height: 10px;
-        border-radius: 10px;
-      "
-    ></span>
-    <a href="/colour/<%= colour.id %> "> <%= colour.name %> </a>
-    <span class="delete" id="<%= colour.id %>" style="cursor: pointer">
-      &#10005;
-    </span>
-  </li>
-  <% }) %>
-</ul>
-<% } else { %>
-<p>No colours yet</p>
-<% } %>
+<div style="display: flex; align-items: center; flex-direction: column;" >
+  <h1>here are your recipes</h1>
+  <% if (data.length > 0) { %>
+  <ul style="list-style: none;">
+    <% data.forEach(recipe => { %>
+    <li>
+      <a href="/recipe/<%= recipe.encoded_name %> ">
+        <h3 style="display: inline"><%= recipe.name %></h3></a
+      >
+      <span
+        class="delete"
+        id="<%= recipe.encoded_name %>"
+        style="cursor: pointer; background-color: red; color: white; border-radius: 5px; padding: 5px; margin-left: 10px;">
+        &#10005;
+      </span>
+    </li>
+    <% }) %>
+  </ul>
+  <% } else { %>
+  <p>No colours yet</p>
+  <% } %>
+</div>
 
-<script>
-  window.addEventListener("DOMContentLoaded", () => {
-    const deleteBtnClickHandler = (event) => {
-      console.log("clicked", event.currentTarget.id);
-      fetch(`/delete-colour`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id: event.currentTarget.id,
-        }),
-      })
-        .then(() => {
-          window.location.reload();
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      const deleteBtnClickHandler = (event) => {
+        console.log("clicked", event.currentTarget.id);
+        fetch(`/delete-recipe`, {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id: event.currentTarget.id,
+          }),
         })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
+          .then(() => {
+            window.location.reload();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      };
 
-    const deleteBtns = document.getElementsByClassName("delete");
+      const deleteBtns = document.getElementsByClassName("delete");
 
-    Array.from(deleteBtns).forEach((btn) => {
-      btn.addEventListener("click", deleteBtnClickHandler);
+      Array.from(deleteBtns).forEach((btn) => {
+        btn.addEventListener("click", deleteBtnClickHandler);
+      });
     });
-  });
-</script>
+  </script>
+</div>
